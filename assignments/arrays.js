@@ -64,18 +64,18 @@ let inventory = [{"id":1,"car_make":"Lincoln","car_model":"Navigator","car_year"
 // ==== Challenge 1 ====
 // The dealer can't recall the information for a car with an id of 33 on his lot. Help the dealer find out which car has an id of 33 by logging the car's year, make, and model in the console log provided to you below:
 
-let car33;
-for (i = 0; i < inventory.length; i++){
-       if (i == 33 - 1) {
-            car33 = inventory[i];
-        }
+let car;
+
+function getInfoById (item, arr, key, keyvalue) {
+    for (i = 0; i < arr.length; i++){
+           if (arr[i][key] == keyvalue) {
+                item = arr[i];
+            }
+    }
+    return `Car ID number ${item.id} is a ${item.car_year} ${item.car_make} ${item.car_model}`;
 }
 
-car33.info = function(){
-    return `Car 33 is a ${this.car_year} ${this.car_make} ${this.car_model}`;
-}
-
-console.log(car33.info());
+console.log(getInfoById(car, inventory, "id", 33));
 
 // ==== Challenge 2 ====
 // The dealer needs the information on the last car in their inventory.  What is the make and model of the last car in the inventory?  Log the make and model into the console.
@@ -140,15 +140,27 @@ console.log(oldCars);
 // A buyer is interested in seeing only BMW and Audi cars within the inventory.  Return an array that only contains BMW and Audi cars.  Once you have populated the BMWAndAudi array, use JSON.stringify() to show the results of the array in the console.
 let BMWAndAudi = [];
 
-function sortArraySpecific(item, arr, key, keyValue1, keyValue2) {
+// function sortArraySpecific(item, arr, key, keyValue1, keyValue2) {
    
-    for (let i = 0; i < arr.length; i++){
-        if (arr[i][key] == keyValue1 || arr[i][key] == keyValue2){
-            item.push(arr[i]);
+//     for (let i = 0; i < arr.length; i++){
+//         if (arr[i][key] == keyValue1 || arr[i][key] == keyValue2){
+//             item.push(arr[i]);
+//         }
+//     }
+//     return item;
+// }
+
+function sortArraySpecific(item, arr, key, ...keyValues) {
+        for (let x = 0; x < keyValues.length; x++ ){
+            keyValues.sort();
+            for (let i = 0; i < arr.length; i++){
+                if (arr[i][key] == keyValues[x]){
+                    item.push(arr[i]);
+                }
+            }
         }
+        return item;
     }
-    return item;
-}
 
 sortArraySpecific(BMWAndAudi, inventory, "car_make", "BMW", "Audi");
 
@@ -158,12 +170,17 @@ console.log(BMWAndAudi);
 
 
 
-// function sortArraySpecific(arr) {
-//     arr.map((car,i) => {
-//         if (car.car_make == 'BMW' || car.car_make == 'Audi') {
-//             BMWAndAudi.push(car)
-//         }
+// function sortArraySpecific(arr, ...cars) {
+//     cars.map((cars) => {
+//         arr.map((car,i) => {
+//             if (car.car_make == cars) {
+//                 BMWAndAudi.push(car)
+//             }
+//         })
 //     })
+
+    
 // }
 
-// sortArraySpecific(inventory)
+// sortArraySpecific(inventory, "BMW", "Audi", "Dodge")
+// console.log(BMWAndAudi)
